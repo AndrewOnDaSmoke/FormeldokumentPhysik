@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MaReCuM Physik – Komplette Formelsammlung (Alle 4 Oberthemen)</title>
+  <style>
+    :root {
+      --bg: #0b1120; --surface: #1e293b; --surface-hover: #334155; --border: #334155;
+      --text: #f8fafc; --text-muted: #94a3b8; --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12); --exam: #f59e0b;
+      --exam-bg: rgba(245, 158, 11, 0.1); --lab: #10b981;
+      --lab-bg: rgba(16, 185, 129, 0.1); --low: #64748b;
+      --low-bg: rgba(100, 116, 139, 0.08); --radius: 10px;
+    }
+    body.light {
+      --bg: #f1f5f9; --surface: #ffffff; --surface-hover: #f8fafc; --border: #cbd5e1;
+      --text: #0f172a; --text-muted: #475569; --accent: #0284c7;
+      --accent-soft: rgba(2, 132, 199, 0.1); --exam: #d97706;
+      --exam-bg: rgba(217, 119, 6, 0.08); --lab: #059669;
+      --lab-bg: rgba(5, 150, 105, 0.08); --low: #64748b;
+      --low-bg: rgba(100, 116, 139, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.55; padding: 24px;
+      max-width: 1400px; margin: 0 auto;
+    }
+    header {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 20px 24px; margin-bottom: 20px; position: sticky; top: 10px; z-index: 100;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    }
+    .header-top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 14px; }
+    .brand { font-size: 1.45rem; font-weight: 800; color: var(--accent); }
+    .subtitle { font-size: 0.84rem; color: var(--text-muted); }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .search-input {
+      flex: 1; min-width: 240px; padding: 9px 14px; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: 0.9rem;
+    }
+    .btn {
+      padding: 8px 13px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--bg); color: var(--text); cursor: pointer; font-size: 0.82rem; font-weight: 600;
+      transition: all 0.15s;
+    }
+    .btn:hover, .btn.active { border-color: var(--accent); background: var(--accent-soft); color: var(--accent); }
+    .btn.filter-exam.active { border-color: var(--exam); background: var(--exam-bg); color: var(--exam); }
+    .legend-row {
+      display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; padding-top: 10px;
+      border-top: 1px solid var(--border); font-size: 0.8rem; color: var(--text-muted); align-items: center;
+    }
+    .badge {
+      display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 0.7rem;
+      font-weight: 700; text-transform: uppercase; white-space: nowrap;
+    }
+    .badge.exam { background: var(--exam-bg); color: var(--exam); border: 1px solid var(--exam); }
+    .badge.lab { background: var(--lab-bg); color: var(--lab); border: 1px solid var(--lab); }
+    .badge.low { background: var(--low-bg); color: var(--text-muted); border: 1px dashed var(--low); }
+    .topic-block {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px; margin-bottom: 26px;
+    }
+    h1 { font-size: 1.4rem; color: var(--accent); margin-bottom: 4px; }
+    h2 { font-size: 1.08rem; color: var(--text); margin: 18px 0 10px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 0.88rem; }
+    th, td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; vertical-align: middle; }
+    th { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+    tr.row-exam { border-left: 4px solid var(--exam); }
+    tr.row-lab { border-left: 4px solid var(--lab); }
+    tr.row-low {
+      border-left: 4px dashed var(--low); background: var(--low-bg);
+      color: var(--text-muted); font-style: italic;
+    }
+    body.hide-low tr.row-low { display: none !important; }
+    .math {
+      font-family: "Cambria Math", "Times New Roman", Georgia, serif;
+      font-size: 1.06rem; font-weight: 600; color: var(--text);
+      background: var(--bg); padding: 6px 10px; border-radius: 6px; display: inline-block;
+    }
+    tr.row-low .math { color: var(--text-muted); font-weight: 500; border: 1px dashed var(--border); }
+    .frac { display: inline-flex; flex-direction: column; vertical-align: middle; text-align: center; padding: 0 3px; }
+    .frac > span:first-child { border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+    .frac > span:last-child { padding-top: 1px; }
+    .vec { text-decoration: overline; }
+    .var-list { font-size: 0.83rem; line-height: 1.5; }
+    .var-list strong { color: var(--accent); font-family: "Cambria Math", Georgia, serif; font-size: 0.92rem; }
+    .cite { font-size: 0.68rem; color: var(--text-muted); opacity: 0.7; margin-left: 3px; }
+    body.hide-cites .cite { display: none; }
+    @media print {
+      header { position: static; box-shadow: none; }
+      body { background: #fff; color: #000; padding: 0; }
+      .toolbar { display: none; }
+    }
+  </style>
+</head>
+<body class="hide-cites">
+
+  <header>
+    <div class="header-top">
+      <div>
+        <div class="brand">MaReCuM Physik – Komplette Formelübersicht</div>
+        <div class="subtitle">Ausnahmslos alle Formeln, Konstanten, Fehlerrechnungen &amp; Variablen-Definitionen <span class="cite">[cite: 1, 40, 42, 79, 123, 136, 173, 218, 283]</span></div>
+      </div>
+      <div class="toolbar">
+        <input type="text" id="searchBox" class="search-input" placeholder="Formel, Begriff oder Symbol suchen (z.B. Bernoulli, Larmor, Kapazität)..." oninput="filterRows()">
+        <button class="btn active" onclick="filterTopic('all', this)">Alle 4 Themen</button>
+        <button class="btn" onclick="filterTopic('t1', this)">1. Mechanik &amp; Thermo</button>
+        <button class="btn" onclick="filterTopic('t2', this)">2. Elektrizität &amp; Biosignale</button>
+        <button class="btn" onclick="filterTopic('t3', this)">3. Strahlung &amp; MRT</button>
+        <button class="btn" onclick="filterTopic('t4', this)">4. Optik &amp; Auge</button>
+        <button class="btn filter-exam" id="btnHideLow" onclick="toggleLowYield()">🎯 Exkurse in (...) ausblenden</button>
+        <button class="btn" onclick="document.body.classList.toggle('light')">🌗 Hell/Dunkel</button>
+        <button class="btn" onclick="document.body.classList.toggle('hide-cites')">📑 Quellen</button>
+      </div>
+    </div>
+    <div class="legend-row">
+      <span><span class="badge exam">🔥 Klausur</span> Hohe Prüfungsrelevanz</span>
+      <span><span class="badge lab">🔬 Praktikum</span> Für Versuchsauswertung &amp; Fehlerrechnung</span>
+      <span><span class="badge low">(⚙️ In Klammern)</span> Über Mediziner-Horizont / Ingenieurs-Exkurs (in runden Klammern gesetzt)</span>
+    </div>
+  </header>
+
+  <!-- ==================== OBERTHEMA 1: MECHANIK, THERMODYNAMIK & STRÖMUNG ==================== -->
+  <section class="topic-block" id="t1">
+    <h1>Oberthema 1: Mechanik, Wärmelehre, Thermodynamik &amp; Strömungsmechanik</h1>
+
+    <h2>1.1 Kräfte, Drehmoment, Reibung &amp; Festkörpermechanik</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>2. Newtonsches Gesetz</strong> <span class="cite">[cite: 5]</span></td>
+          <td><span class="math"><span class="vec">F</span> = m · <span class="vec">a</span></span></td>
+          <td class="var-list"><strong>F</strong> = Kraft, <strong>m</strong> = Masse, <strong>a</strong> = Beschleunigung <span class="cite">[cite: 5]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 N = 1 kg·m/s² <span class="cite">[cite: 5]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Kräftegleichgewicht &amp; Resultierende Kraft</strong> <span class="cite">[cite: 6, 16]</span></td>
+          <td><span class="math"><span class="vec">F</span><sub>res</sub> = <span class="vec">F</span><sub>1</sub> + <span class="vec">F</span><sub>2</sub> &nbsp;|&nbsp; ∑ <span class="vec">F</span><sub>x,i</sub> = 0</span></td>
+          <td class="var-list"><strong>F<sub>res</sub></strong> = Gesamtkraft, <strong>F<sub>1</sub>, F<sub>2</sub></strong> = Einzelkräfte (∑F = 0 bei Ruhe v = 0 oder v = const) <span class="cite">[cite: 6, 16]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Newton [N] <span class="cite">[cite: 5, 6]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Gravitationsgesetz &amp; Gewichtskraft</strong> <span class="cite">[cite: 7, 16]</span></td>
+          <td><span class="math">|<span class="vec">F</span><sub>G</sub>| = G · <span class="frac"><span>m<sub>1</sub> · m<sub>2</sub></span><span>r<sup>2</sup></span></span> = m · g</span></td>
+          <td class="var-list"><strong>F<sub>G</sub></strong> = Gewichtskraft, <strong>G</strong> = Gravitationskonstante (6,673·10⁻¹¹ m³/(kg·s²)), <strong>m<sub>1</sub>, m<sub>2</sub></strong> = Massen (m<sub>Erde</sub> = 5,9722·10²⁴ kg), <strong>r</strong> = Abstand (r<sub>Erde</sub> = 6 378 140 m), <strong>g</strong> = Erdbeschleunigung (≈ 9,81 m/s²) <span class="cite">[cite: 7, 16]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Newton [N] <span class="cite">[cite: 5, 7]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Normalreibung (Haft-/Gleitreibung)</strong> <span class="cite">[cite: 8]</span></td>
+          <td><span class="math"><span class="vec">F</span><sub>R</sub> = μ · <span class="vec">F</span><sub>N</sub></span></td>
+          <td class="var-list"><strong>F<sub>R</sub></strong> = Reibungskraft, <strong>μ</strong> = Reibungskoeffizient (dimensionslos, μ<sub>Haft</sub> &gt; μ<sub>Gleit</sub>), <strong>F<sub>N</sub></strong> = Normalkraft (senkrecht zur Unterlage) <span class="cite">[cite: 8]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Newton [N] <span class="cite">[cite: 5, 8]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Drehmoment</strong> <span class="cite">[cite: 9]</span></td>
+          <td><span class="math"><span class="vec">M</span> = <span class="vec">r</span><sub>⊥</sub> × <span class="vec">F</span> &nbsp;|&nbsp; |<span class="vec">M</span><sub>z</sub>| = |<span class="vec">r</span>| · |<span class="vec">F</span>| · sin(α)</span></td>
+          <td class="var-list"><strong>M</strong> = Drehmoment, <strong>r</strong> = Ortsvektor / Hebelarm vom Drehpunkt zum Kraftangriffspunkt, <strong>F</strong> = Kraft, <strong>α</strong> = Winkel zwischen <span class="vec">r</span> und <span class="vec">F</span> <span class="cite">[cite: 9]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 Nm = 1 kg·m²/s² <span class="cite">[cite: 9]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Mechanische Normal- &amp; Scherspannung</strong> <span class="cite">[cite: 12]</span></td>
+          <td><span class="math">|σ| = <span class="frac"><span>|F| · sin(α)</span><span>A<sub>1</sub></span></span> &nbsp;|&nbsp; |τ| = <span class="frac"><span>|F| · cos(α)</span><span>A<sub>1</sub></span></span></span></td>
+          <td class="var-list"><strong>σ</strong> = Normalspannung (für α = 90° gilt σ = F/A), <strong>τ</strong> = Schub-/Scherspannung (parallel zur Fläche), <strong>F</strong> = Kraft, <strong>A<sub>1</sub></strong> = Querschnittsfläche, <strong>α</strong> = Winkel zur Fläche <span class="cite">[cite: 12]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 N/m² = 1 Pa <span class="cite">[cite: 12, 24]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Hookesches Gesetz (Elastizitätsmodul)</strong> <span class="cite">[cite: 13]</span></td>
+          <td><span class="math">E = <span class="frac"><span>σ<sub>B</sub></span><span>ε</span></span> &nbsp;⇔&nbsp; ε = <span class="frac"><span>1</span><span>E</span></span> · σ<sub>B</sub></span></td>
+          <td class="var-list"><strong>E</strong> = Elastizitätsmodul, <strong>σ<sub>B</sub></strong> = mechanische (Biege-)Spannung, <strong>ε</strong> = relative Dehnung (ΔL/L, dimensionslos) <span class="cite">[cite: 13]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[E] = N/m² = Pa <span class="cite">[cite: 13]</span></td>
+        </tr>
+        <tr class="row-low">
+          <td>(Euler-Bernoulli-Balkenbiegung &amp; Flächenträgheitsmoment) <span class="cite">[cite: 13, 14]</span></td>
+          <td><span class="math">( w'' = <span class="frac"><span>M(x)</span><span>E · I</span></span> &nbsp;|&nbsp; σ<sub>B</sub> = <span class="frac"><span>M<sub>B</sub></span><span>W</span></span> &nbsp;|&nbsp; I = ∫ r<sup>2</sup> dA )</span><br><span class="math">( I<sub>Rechteck</sub> = <span class="frac"><span>b · h<sup>3</sup></span><span>12</span></span> &nbsp;|&nbsp; I<sub>Rohr</sub> = <span class="frac"><span>(D<sup>4</sup> − d<sup>4</sup>) · π</span><span>64</span></span> )</span></td>
+          <td class="var-list">(<strong>w''</strong> = 2. Ableitung der Durchbiegung w nach x, <strong>M(x), M<sub>B</sub></strong> = Biegemoment, <strong>E</strong> = Elastizitätsmodul, <strong>I</strong> = Flächenträgheitsmoment, <strong>W</strong> = Widerstandsmoment, <strong>r</strong> = Abstand zum Flächenelement dA, <strong>b, h</strong> = Breite/Höhe, <strong>D, d</strong> = Außen-/Innendurchmesser) <span class="cite">[cite: 13, 14]</span></td>
+          <td><span class="badge low">(⚙️ Ingenieurs-Exkurs)</span><br>[I] = m⁴ <span class="cite">[cite: 13, 14]</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>1.2 Kinematik (Translation &amp; Rotation), Arbeit, Energie, Leistung &amp; Impuls</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>Lineare Geschwindigkeit &amp; Beschleunigung</strong> <span class="cite">[cite: 17]</span></td>
+          <td><span class="math"><span class="vec">v</span> = ẋ = <span class="frac"><span>d<span class="vec">x</span></span><span>dt</span></span> &nbsp;|&nbsp; <span class="vec">a</span> = ẍ = <span class="frac"><span>d<span class="vec">v</span></span><span>dt</span></span></span></td>
+          <td class="var-list"><strong>v</strong> = Geschwindigkeit, <strong>x</strong> = Weg/Ort, <strong>t</strong> = Zeit, <strong>a</strong> = Beschleunigung <span class="cite">[cite: 17]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[v] = m/s, [a] = m/s² <span class="cite">[cite: 17]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Rotationsgrößen &amp; Bahngeschwindigkeit</strong> <span class="cite">[cite: 18]</span></td>
+          <td><span class="math"><span class="vec">ω</span> = φ̇ = <span class="frac"><span>dφ</span><span>dt</span></span> &nbsp;|&nbsp; φ̈ = ω̇ = <span class="frac"><span>dφ̇</span><span>dt</span></span></span><br><span class="math"><span class="vec">v</span>(t) = <span class="vec">ω</span> × <span class="vec">r</span><sub>⊥</sub> &nbsp;|&nbsp; s = ω · r<sub>⊥</sub> · t</span></td>
+          <td class="var-list"><strong>φ</strong> = Drehwinkel, <strong>ω</strong> = Winkel-/Rotationsgeschwindigkeit, <strong>φ̈</strong> = Winkelbeschleunigung, <strong>r<sub>⊥</sub></strong> = senkrechter Abstand zur Drehachse (Radius), <strong>s</strong> = zurückgelegte Bogenlänge <span class="cite">[cite: 18]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[ω] = rad/s, [φ̈] = rad/s² <span class="cite">[cite: 18]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Mechanische Arbeit (linear &amp; rot.)</strong> <span class="cite">[cite: 19]</span></td>
+          <td><span class="math">W = ∫ F(s) ds &nbsp;|&nbsp; W<sub>rot</sub> = ∫ M(φ) dφ</span></td>
+          <td class="var-list"><strong>W</strong> = mechanische Arbeit (für F = const gilt W = F · s), <strong>F</strong> = Kraft, <strong>s</strong> = Weg, <strong>M</strong> = Drehmoment, <strong>φ</strong> = Drehwinkel <span class="cite">[cite: 19]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 Joule [J] = 1 Nm <span class="cite">[cite: 19]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Mechanische Energien &amp; Energieerhaltung</strong> <span class="cite">[cite: 19]</span></td>
+          <td><span class="math">E<sub>pot</sub> = m · g · h &nbsp;|&nbsp; E<sub>kin,lin</sub> = <span class="frac"><span>1</span><span>2</span></span> m · v<sup>2</sup> &nbsp;|&nbsp; ( E<sub>kin,rot</sub> = <span class="frac"><span>1</span><span>2</span></span> J · ω<sup>2</sup> )</span><br><span class="math">E<sub>mech</sub> = E<sub>pot</sub> + E<sub>kin,lin</sub> + E<sub>kin,rot</sub> = const</span></td>
+          <td class="var-list"><strong>E<sub>pot</sub></strong> = Lageenergie, <strong>E<sub>kin,lin</sub></strong> = Bewegungsenergie, <strong>E<sub>kin,rot</sub></strong> = Rotationsenergie, <strong>m</strong> = Masse, <strong>g</strong> = 9,81 m/s², <strong>h</strong> = Höhe, <strong>v</strong> = Geschwindigkeit, <strong>J</strong> = Massenträgheitsmoment, <strong>ω</strong> = Winkelgeschwindigkeit <span class="cite">[cite: 16, 19]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 J = 1 Nm = 1 kg·m²/s² <span class="cite">[cite: 9, 19]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Mechanische Leistung</strong> <span class="cite">[cite: 20]</span></td>
+          <td><span class="math">P = <span class="frac"><span>W</span><span>Δt</span></span></span></td>
+          <td class="var-list"><strong>P</strong> = Leistung, <strong>W</strong> = verrichtete Arbeit, <strong>Δt</strong> = benötigte Zeitspanne <span class="cite">[cite: 20]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 Watt [W] = 1 J/s <span class="cite">[cite: 20]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Mechanischer Impuls &amp; Elastischer Stoß</strong> <span class="cite">[cite: 21]</span></td>
+          <td><span class="math"><span class="vec">p</span> = ∫ F dt = m · <span class="vec">v</span></span><br><span class="math">m<sub>1</sub><span class="vec">v</span><sub>1</sub> + m<sub>2</sub><span class="vec">v</span><sub>2</sub> = m<sub>1</sub><span class="vec">u</span><sub>1</sub> + m<sub>2</sub><span class="vec">u</span><sub>2</sub> = const</span><br><span class="math"><span class="frac"><span>1</span><span>2</span></span>m<sub>1</sub>v<sub>1</sub><sup>2</sup> + <span class="frac"><span>1</span><span>2</span></span>m<sub>2</sub>v<sub>2</sub><sup>2</sup> = <span class="frac"><span>1</span><span>2</span></span>m<sub>1</sub>u<sub>1</sub><sup>2</sup> + <span class="frac"><span>1</span><span>2</span></span>m<sub>2</sub>u<sub>2</sub><sup>2</sup> = const</span></td>
+          <td class="var-list"><strong>p</strong> = Impuls, <strong>F</strong> = Kraft, <strong>t</strong> = Zeit, <strong>m<sub>1</sub>, m<sub>2</sub></strong> = Massen der Stoßpartner, <strong>v<sub>1</sub>, v<sub>2</sub></strong> = Geschwindigkeiten vor dem Stoß, <strong>u<sub>1</sub>, u<sub>2</sub></strong> = Geschwindigkeiten nach dem Stoß <span class="cite">[cite: 21]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[p] = 1 Ns = 1 kg·m/s <span class="cite">[cite: 21]</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>1.3 Thermodynamik, Stoffmengen, Wärmelehre &amp; Gasgesetze</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>1. Hauptsatz der Thermodynamik</strong> <span class="cite">[cite: 22]</span></td>
+          <td><span class="math">ΔU = ΔW + ΔQ</span></td>
+          <td class="var-list"><strong>ΔU</strong> = Änderung der inneren Energie eines geschlossenen Systems, <strong>ΔW</strong> = zugeführte/verrichtete Arbeit, <strong>ΔQ</strong> = zugeführte/abgegebene Wärme <span class="cite">[cite: 22]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Joule [J] <span class="cite">[cite: 22, 25]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Stoffmengen, Dichte &amp; Avogadro</strong> <span class="cite">[cite: 23]</span></td>
+          <td><span class="math">ρ = <span class="frac"><span>m</span><span>V</span></span> &nbsp;|&nbsp; M = <span class="frac"><span>m</span><span>n</span></span> &nbsp;|&nbsp; V<sub>m</sub> = <span class="frac"><span>V</span><span>n</span></span> ≈ 22,4 <span class="frac"><span>l</span><span>mol</span></span></span><br><span class="math">N = N<sub>A</sub> · n &nbsp;|&nbsp; m = N · m<sub>Teilchen</sub></span></td>
+          <td class="var-list"><strong>ρ</strong> = Dichte, <strong>m</strong> = Masse, <strong>V</strong> = Volumen, <strong>n</strong> = Stoffmenge [mol], <strong>M</strong> = molare Masse, <strong>V<sub>m</sub></strong> = molares Volumen, <strong>N</strong> = Teilchenanzahl, <strong>N<sub>A</sub></strong> = Avogadro-Konstante (6,022·10²³ mol⁻¹), <strong>1 u (Dalton)</strong> = 1/12 Masse von ¹²C = 1,66054·10⁻²⁴ g <span class="cite">[cite: 23]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[n] = mol, [M] = g/mol <span class="cite">[cite: 23]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Druck, Volumenarbeit &amp; Beatmungsdrücke</strong> <span class="cite">[cite: 24, 36]</span></td>
+          <td><span class="math">p = <span class="frac"><span>F</span><span>A</span></span> &nbsp;|&nbsp; W = −p · ΔV = −p · (V<sub>2</sub> − V<sub>1</sub>)</span><br><span class="math">p<sub>Peak</sub> = R · V̇ + <span class="frac"><span>V<sub>T</sub></span><span>C</span></span> + PEEP</span></td>
+          <td class="var-list"><strong>p</strong> = Druck, <strong>F</strong> = senkrechte Kraft, <strong>A</strong> = Fläche, <strong>W</strong> = Volumenarbeit, <strong>ΔV</strong> = Volumenänderung; Beatmung: <strong>R</strong> = Resistance (Atemwegswiderstand), <strong>V̇</strong> = Volumenstrom (Flow), <strong>V<sub>T</sub></strong> = Tidalvolumen, <strong>C</strong> = Compliance (Dehnbarkeit), <strong>PEEP</strong> = positiver endexspiratorischer Druck <span class="cite">[cite: 24, 36]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 Pa = 1 N/m² = 10⁻⁵ bar <span class="cite">[cite: 24]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Wärmemenge &amp; Wärmekapazität</strong> <span class="cite">[cite: 25]</span></td>
+          <td><span class="math">ΔQ = C · ΔT = c · m · ΔT</span></td>
+          <td class="var-list"><strong>ΔQ</strong> = Wärmemenge, <strong>C</strong> = Wärmekapazität des Körpers, <strong>c</strong> = spezifische Wärmekapazität, <strong>m</strong> = Masse, <strong>ΔT</strong> = Temperaturänderung (1 °C Änderung = 1 K Änderung; 0 K = −273,15 °C) <span class="cite">[cite: 25]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 J = 0,239 cal (1 cal ≈ 4,184 J) <span class="cite">[cite: 25]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Enthalpie &amp; Innere Energie idealer Gase</strong> <span class="cite">[cite: 26]</span></td>
+          <td><span class="math">H = U + p · V &nbsp;|&nbsp; U<sub>ideales Gas</sub> = <span class="frac"><span>3</span><span>2</span></span> · N · k · T &nbsp;|&nbsp; ( (<span class="frac"><span>∂U</span><span>∂S</span></span>)<sub>V</sub> = T )</span></td>
+          <td class="var-list"><strong>H</strong> = Enthalpie (Wärmeinhalt bei p = const; ΔH &lt; 0 exotherm, ΔH &gt; 0 endotherm), <strong>U</strong> = innere Energie, <strong>p</strong> = Druck, <strong>V</strong> = Volumen, <strong>N</strong> = Teilchenzahl, <strong>k</strong> = Boltzmann-Konstante, <strong>T</strong> = absolute Temperatur [K], <strong>S</strong> = Entropie <span class="cite">[cite: 26]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Joule [J] <span class="cite">[cite: 25, 26]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Allgemeine Gasgleichung &amp; Spezialfälle</strong> <span class="cite">[cite: 36, 37, 38, 39]</span></td>
+          <td><span class="math">p · V = n · R<sub>M</sub> · T</span><br>1. Boyle-Mariotte (T=const): <span class="math">p<sub>0</sub> · V<sub>0</sub> = p<sub>1</sub> · V<sub>1</sub> = const</span><br>2. Gay-Lussac (p=const): <span class="math"><span class="frac"><span>V<sub>0</sub></span><span>T<sub>0</sub></span></span> = <span class="frac"><span>V<sub>1</sub></span><span>T<sub>1</sub></span></span> = const</span><br>3. Amontons (V=const): <span class="math"><span class="frac"><span>p<sub>0</sub></span><span>T<sub>0</sub></span></span> = <span class="frac"><span>p<sub>1</sub></span><span>T<sub>1</sub></span></span> = const</span></td>
+          <td class="var-list"><strong>p</strong> = Druck [Pa], <strong>V</strong> = Volumen [m³], <strong>n</strong> = Stoffmenge [mol], <strong>R<sub>M</sub></strong> = allgemeine Gaskonstante (8,3145 J/(mol·K)), <strong>T</strong> = absolute Temperatur in Kelvin [K] <span class="cite">[cite: 36, 37, 38, 39]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[p·V] = J <span class="cite">[cite: 36]</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>1.4 Strömungsmechanik (Hämodynamik)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>Kontinuitätsgleichung</strong> <span class="cite">[cite: 28]</span></td>
+          <td><span class="math">ṁ = ρ · A · v = const &nbsp;⇒&nbsp; A<sub>1</sub> · v<sub>0</sub> = A<sub>2</sub> · v<sub>1</sub></span></td>
+          <td class="var-list"><strong>ṁ</strong> = Massenstrom (Masse pro Zeit), <strong>ρ</strong> = Dichte des Fluids, <strong>A<sub>1</sub>, A<sub>2</sub></strong> = Rohr-/Gefäßquerschnittsflächen, <strong>v<sub>0</sub>, v<sub>1</sub></strong> = Strömungsgeschwindigkeiten <span class="cite">[cite: 28]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[ṁ] = kg/s, [A·v] = m³/s <span class="cite">[cite: 28]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Reynoldszahl (Laminar vs. Turbulent)</strong> <span class="cite">[cite: 29]</span></td>
+          <td><span class="math">Re = <span class="frac"><span>ρ · v · d</span><span>η</span></span></span></td>
+          <td class="var-list"><strong>Re</strong> = Reynoldszahl (dimensionslos: Re &lt; 2300 laminar; 2300–10 000 Übergang; Re &gt; 10 000 turbulent), <strong>ρ</strong> = Dichte, <strong>v</strong> = Strömungsgeschwindigkeit, <strong>d</strong> = charakteristischer Rohrdurchmesser, <strong>η</strong> = dynamische Viskosität (Zähigkeit) <span class="cite">[cite: 29]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>dimensionslos [1] <span class="cite">[cite: 29]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Bernoulli-Gleichung</strong> <span class="cite">[cite: 32]</span></td>
+          <td><span class="math">p + ρ · g · h + <span class="frac"><span>1</span><span>2</span></span> ρ · v<sup>2</sup> = const</span></td>
+          <td class="var-list"><strong>p</strong> = statischer Druck, <strong>ρ·g·h</strong> = Schweredruck (potentielle Höhe h), <strong>½ρ·v²</strong> = dynamischer Druck (Staudruck), <strong>ρ</strong> = Dichte, <strong>g</strong> = 9,81 m/s², <strong>v</strong> = Fließgeschwindigkeit <span class="cite">[cite: 32]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Pascal [Pa = N/m²] <span class="cite">[cite: 24, 32]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Torricelli, Prandtl-Rohr &amp; Venturi-Rohr</strong> <span class="cite">[cite: 33, 34, 35]</span></td>
+          <td>Torricelli: <span class="math">v<sub>1</sub> = √(2 · g · h)</span><br>Prandtl: <span class="math">v<sub>0</sub> = √(<span class="frac"><span>2 · Δp</span><span>ρ</span></span>)</span><br>( Venturi: <span class="math">v<sub>0</sub> = √(<span class="frac"><span>2 · Δp</span><span>ρ · ((A<sub>0</sub>/A<sub>1</sub>)<sup>2</sup> − 1)</span></span>)</span> )</td>
+          <td class="var-list"><strong>v<sub>1</sub>, v<sub>0</sub></strong> = Ausfluss-/Strömungsgeschwindigkeit, <strong>g</strong> = Erdbeschleunigung, <strong>h</strong> = Füllhöhe über Ausfluss, <strong>Δp</strong> = gemessene Druckdifferenz, <strong>ρ</strong> = Dichte, <strong>A<sub>0</sub>, A<sub>1</sub></strong> = Querschnittsflächen vor und in der Verengung <span class="cite">[cite: 33, 34, 35]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[v] = m/s <span class="cite">[cite: 33, 34, 35]</span></td>
+        </tr>
+        <tr class="row-low">
+          <td>(Navier-Stokes- &amp; Euler-Gleichung) <span class="cite">[cite: 30, 31]</span></td>
+          <td><span class="math">( ρ(<span class="frac"><span>∂<span class="vec">v</span></span><span>∂t</span></span> + (<span class="vec">v</span>·∇)<span class="vec">v</span>) = −∇p + μΔ<span class="vec">v</span> + (λ+μ)∇(∇·<span class="vec">v</span>) + <span class="vec">f</span> )</span><br><span class="math">( Euler: <span class="frac"><span>∂<span class="vec">v</span></span><span>∂t</span></span> + (<span class="vec">v</span>·∇)<span class="vec">v</span> = −<span class="frac"><span>∇p</span><span>ρ</span></span> )</span></td>
+          <td class="var-list">(<strong>ρ</strong> = Dichte, <strong>v</strong> = Geschwindigkeitsfeld, <strong>p</strong> = Druck, <strong>μ, λ</strong> = Viskositätskoeffizienten, <strong>f</strong> = Volumenkraftdichte; Euler gilt für reibungsfreie Fluide mit μ = 0) <span class="cite">[cite: 30, 31]</span></td>
+          <td><span class="badge low">(⚙️ Ingenieurs-Exkurs)</span><br>Nicht rechnen, nur Konzept kennen <span class="cite">[cite: 30, 31]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ==================== OBERTHEMA 2: ELEKTRIZITÄTSLEHRE & BIOSIGNALE ==================== -->
+  <section class="topic-block" id="t2">
+    <h1>Oberthema 2: Elektrizitätslehre, Elektrostatik &amp; Biosignale (EKG, EMG, EOG)</h1>
+
+    <h2>2.1 Elektrostatik, Grundgrößen &amp; Kondensator (Zellmembran)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>Elektrischer Strom &amp; Ladung</strong> <span class="cite">[cite: 40, 145, 146]</span></td>
+          <td><span class="math">I = <span class="frac"><span>Q</span><span>t</span></span> = n<sub>Elektronen</sub> · <span class="frac"><span>q<sub>el</sub><sup>−</sup></span><span>t</span></span> &nbsp;⇔&nbsp; Q = ∫ I dt</span></td>
+          <td class="var-list"><strong>I</strong> = Stromstärke, <strong>Q</strong> = elektrische Ladung, <strong>t</strong> = Zeit, <strong>n<sub>Elektronen</sub></strong> = Elektronenanzahl, <strong>q<sub>el</sub><sup>−</sup></strong> = Elementarladung eines Elektrons <span class="cite">[cite: 40, 145, 146]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[I] = A, [Q] = 1 C = 1 As <span class="cite">[cite: 40, 146]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Elektrisches Feld, Potential, Spannung, Energie &amp; Leistung</strong> <span class="cite">[cite: 146, 147, 149, 150]</span></td>
+          <td><span class="math"><span class="vec">F</span> = Q · <span class="vec">E</span> &nbsp;|&nbsp; U = ΔΦ = Φ<sub>A</sub> − Φ<sub>B</sub> = <span class="vec">E</span> · <span class="vec">l</span></span><br><span class="math">W = Q · U = Q · <span class="vec">E</span> · <span class="vec">l</span> &nbsp;|&nbsp; P = U · I</span></td>
+          <td class="var-list"><strong>F</strong> = elektrische Kraft, <strong>Q</strong> = Ladung, <strong>E</strong> = elektrische Feldstärke, <strong>U</strong> = Spannung (Potentialdifferenz), <strong>Φ<sub>A</sub>, Φ<sub>B</sub></strong> = elektrische Potentiale, <strong>l</strong> = Wegstrecke entlang Feldlinie, <strong>W</strong> = elektrische Energie/Arbeit, <strong>P</strong> = elektrische Leistung <span class="cite">[cite: 146, 147, 149, 150, 171]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[U] = V = J/C, [W] = J = Ws, [P] = W = VA <span class="cite">[cite: 146]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Coulomb-Gesetz</strong> <span class="cite">[cite: 148]</span></td>
+          <td><span class="math">|F| = <span class="frac"><span>1</span><span>4π · ε<sub>0</sub> · ε<sub>r</sub></span></span> · <span class="frac"><span>|q<sub>1</sub> · q<sub>2</sub>|</span><span>r<sup>2</sup></span></span></span></td>
+          <td class="var-list"><strong>F</strong> = Kraft zwischen zwei Punktladungen, <strong>q<sub>1</sub>, q<sub>2</sub></strong> = Ladungsmengen, <strong>r</strong> = Abstand der Ladungen, <strong>ε<sub>0</sub></strong> = elektrische Feldkonstante, <strong>ε<sub>r</sub></strong> = relative Permittivität / Dielektrizitätszahl (im Vakuum ε<sub>r</sub> = 1) <span class="cite">[cite: 148]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Newton [N] <span class="cite">[cite: 5, 148]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Kapazität &amp; Plattenkondensator</strong> <span class="cite">[cite: 40, 41, 155]</span></td>
+          <td><span class="math">C = <span class="frac"><span>Q</span><span>U<sub>C</sub></span></span> = ε<sub>0</sub> · ε<sub>r</sub> · <span class="frac"><span>A</span><span>d</span></span> &nbsp;⇔&nbsp; Q = C · U<sub>C</sub></span></td>
+          <td class="var-list"><strong>C</strong> = Kapazität (Zellmembran / Kondensator), <strong>Q</strong> = gespeicherte Ladung, <strong>U<sub>C</sub></strong> = anliegende Spannung, <strong>A</strong> = Platten-/Membranfläche, <strong>d</strong> = Plattenabstand / Membrandicke <span class="cite">[cite: 40, 41, 155]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>1 Farad [F] = 1 C/V = 1 As/V <span class="cite">[cite: 40, 146]</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>2.2 Schaltkreise, Bauelemente, Signaltheorie &amp; Biosignal-Auswertung</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>Ohmsches Gesetz &amp; Elektrischer Leitwert</strong> <span class="cite">[cite: 41, 81, 159]</span></td>
+          <td><span class="math">U = R · I = G<sup>−1</sup> · I &nbsp;|&nbsp; G = <span class="frac"><span>1</span><span>R</span></span></span></td>
+          <td class="var-list"><strong>U</strong> = Spannung, <strong>R</strong> = elektrischer Widerstand, <strong>I</strong> = Stromstärke, <strong>G</strong> = elektrischer Leitwert <span class="cite">[cite: 41, 81, 159]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[R] = Ω = V/A, [G] = Siemens [S = Ω⁻¹] <span class="cite">[cite: 40, 41]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Dynamische Beziehung an Kondensator &amp; Spule</strong> <span class="cite">[cite: 81, 86]</span></td>
+          <td>Kondensator: <span class="math">I<sub>C</sub> = C · <span class="frac"><span>dU<sub>C</sub></span><span>dt</span></span></span><br>Induktivität: <span class="math">U<sub>L</sub> = L · <span class="frac"><span>dI<sub>L</sub></span><span>dt</span></span> &nbsp;⇒&nbsp; I<sub>L</sub>(t) = <span class="frac"><span>U</span><span>L</span></span> · t</span></td>
+          <td class="var-list"><strong>I<sub>C</sub>, I<sub>L</sub></strong> = Strom durch Kondensator/Spule, <strong>U<sub>C</sub>, U<sub>L</sub></strong> = Spannung an Kondensator/Spule, <strong>C</strong> = Kapazität, <strong>L</strong> = Induktivität, <strong>t</strong> = Zeit (letzte Formel gilt für U = const) <span class="cite">[cite: 81, 86]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Vorbereitung</span><br>[C] = F, [L] = Vs/A (Henry) <span class="cite">[cite: 81]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Kirchhoffsche Regeln</strong> <span class="cite">[cite: 82, 161, 164]</span></td>
+          <td>Knotenregel: <span class="math">∑ I<sub>zu</sub> = ∑ I<sub>ab</sub></span><br>Maschenregel: <span class="math">∑ U<sub>i</sub> = 0</span></td>
+          <td class="var-list"><strong>I<sub>zu</sub>, I<sub>ab</sub></strong> = in einen Knoten zufließende bzw. abfließende Ströme, <strong>U<sub>i</sub></strong> = Teilspannungen bei geschlossenem Umlauf in einer Masche <span class="cite">[cite: 82, 161, 164]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[I] = A, [U] = V <span class="cite">[cite: 82]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Reihenschaltung &amp; Spannungsteiler</strong> <span class="cite">[cite: 82, 167]</span></td>
+          <td><span class="math">R<sub>ges</sub> = R<sub>1</sub> + R<sub>2</sub> + ...</span><br><span class="math">U<sub>1</sub> = U · <span class="frac"><span>R<sub>1</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span> &nbsp;|&nbsp; U<sub>2</sub> = U · <span class="frac"><span>R<sub>2</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span></span></td>
+          <td class="var-list"><strong>R<sub>ges</sub></strong> = Gesamtwiderstand in Serie, <strong>R<sub>1</sub>, R<sub>2</sub></strong> = Einzelwiderstände, <strong>U</strong> = Gesamtspannung, <strong>U<sub>1</sub>, U<sub>2</sub></strong> = Teilspannungen (Strom I ist überall gleich) <span class="cite">[cite: 80, 82, 167]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Ohm [Ω], Volt [V] <span class="cite">[cite: 82]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Parallelschaltung &amp; Stromteiler</strong> <span class="cite">[cite: 41, 82, 169]</span></td>
+          <td><span class="math"><span class="frac"><span>1</span><span>R<sub>ges</sub></span></span> = <span class="frac"><span>1</span><span>R<sub>1</sub></span></span> + <span class="frac"><span>1</span><span>R<sub>2</sub></span></span> &nbsp;⇒&nbsp; R<sub>ges</sub> = <span class="frac"><span>R<sub>1</sub> · R<sub>2</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span></span><br><span class="math">I<sub>1</sub> = I · <span class="frac"><span>R<sub>2</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span> &nbsp;|&nbsp; I<sub>2</sub> = I · <span class="frac"><span>R<sub>1</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span></span></td>
+          <td class="var-list"><strong>R<sub>ges</sub></strong> = Gesamtwiderstand parallel, <strong>I</strong> = Gesamtstrom, <strong>I<sub>1</sub>, I<sub>2</sub></strong> = Zweigströme (Achtung: im Zähler für I₁ steht der jeweils andere Widerstand R₂!) <span class="cite">[cite: 41, 82, 169]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Ohm [Ω], Ampere [A] <span class="cite">[cite: 41, 82]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Überlagerungssatz (Superposition, Abb. 6.1 &amp; 6.6)</strong> <span class="cite">[cite: 83, 87]</span></td>
+          <td>An R<sub>2</sub>: <span class="math">U<sub>2</sub> = U · <span class="frac"><span>R<sub>2</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span> + I · <span class="frac"><span>R<sub>1</sub> · R<sub>2</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span></span><br>An R<sub>1</sub>: <span class="math">U<sub>1</sub> = U · <span class="frac"><span>R<sub>1</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span> − I · <span class="frac"><span>R<sub>1</sub> · R<sub>2</sub></span><span>R<sub>1</sub> + R<sub>2</sub></span></span></span></td>
+          <td class="var-list"><strong>U</strong> = ideale Spannungsquelle (deaktiviert = Kurzschluss), <strong>I</strong> = ideale Stromquelle (deaktiviert = Leerlauf), <strong>U<sub>1</sub>, U<sub>2</sub></strong> = resultierende Spannungen an R<sub>1</sub> bzw. R<sub>2</sub> <span class="cite">[cite: 79, 80, 83, 87]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Vorbereitung</span><br>Volt [V] <span class="cite">[cite: 83, 87]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Biosignal-Messung am Verstärkereingang (EMG/EKG)</strong> <span class="cite">[cite: 41, 89]</span></td>
+          <td><span class="math">U<sub>a</sub> = A · <span class="frac"><span>R<sub>v</sub></span><span>R + R<sub>v</sub></span></span> · U</span></td>
+          <td class="var-list"><strong>U<sub>a</sub> (U<sub>out</sub>)</strong> = Ausgangsspannung nach Verstärker, <strong>A</strong> = Verstärkungsfaktor (z. B. 1000), <strong>U</strong> = Biosignalspannung im Körper, <strong>R</strong> = Widerstand des Elektroden-Haut-Übergangs, <strong>R<sub>v</sub></strong> = Eingangswiderstand des Verstärkers (muss R<sub>v</sub> ≫ R sein!) <span class="cite">[cite: 41, 89]</span></td>
+          <td><span class="badge exam">🔥 Klausur-Klassiker</span><br>Volt [V bzw. mV] <span class="cite">[cite: 41, 89]</span></td>
+        </tr>
+        <tr class="row-lab">
+          <td><strong>Grundfrequenz &amp; Herzfrequenzvariabilität (HRV / SDNN)</strong> <span class="cite">[cite: 83, 98]</span></td>
+          <td><span class="math">f<sub>0</sub> = <span class="frac"><span>1</span><span>T</span></span></span> &nbsp;(Cosinus-Peak im Spektrum: <span class="math"><span class="frac"><span>A</span><span>2</span></span></span>)<br><span class="math">HRV = <span class="frac"><span>1</span><span>2</span></span> · (<span class="frac"><span>60</span><span>BPM<sub>links</sub></span></span> − <span class="frac"><span>60</span><span>BPM<sub>rechts</sub></span></span>) · 1000</span></td>
+          <td class="var-list"><strong>f<sub>0</sub></strong> = Frequenz [Hz], <strong>T</strong> = Periodendauer [s], <strong>A</strong> = Signalamplitude; <strong>HRV</strong> = geschätzte Standardabweichung der RR-Intervalle [ms], <strong>BPM<sub>links/rechts</sub></strong> = Herzfrequenzwerte [Schläge/min] bei halber Maximalhöhe (N<sub>max</sub>/2) der Gaußglocke im Histogramm <span class="cite">[cite: 83, 98]</span></td>
+          <td><span class="badge lab">🔬 Praktikum</span><br>[f₀] = Hz, [HRV] = ms <span class="cite">[cite: 83, 98]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ==================== OBERTHEMA 3: RADIOAKTIVITÄT, STRAHLENSCHUTZ & MRT ==================== -->
+  <section class="topic-block" id="t3">
+    <h1>Oberthema 3: Radioaktivität, Dosimetrie, Bildgebung &amp; MRT</h1>
+
+    <h2>3.1 Radioaktivität, Dosimetrie, Lambert-Beer &amp; Fehlerfortpflanzung im <sup>60</sup>Co-Versuch</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>Dosimetrische Größen (Skript Kap. 2.6 &amp; 5.1.5)</strong> <span class="cite">[cite: 52, 124, 125]</span></td>
+          <td>Aktivität: <span class="math">A = −<span class="frac"><span>dN</span><span>dt</span></span> = λ · N</span><br>Ionendosis: <span class="math">J = <span class="frac"><span>dQ</span><span>dm</span></span></span><br>Energiedosis: <span class="math">D = <span class="frac"><span>dE</span><span>dm</span></span></span> &nbsp;|&nbsp; Äquivalentdosis: <span class="math">H = q · D</span></td>
+          <td class="var-list"><strong>A</strong> = Aktivität (Zerfallsrate), <strong>N</strong> = Anzahl radioaktiver Kerne, <strong>λ</strong> = Zerfallskonstante, <strong>J</strong> = Ionendosis (erzeugte Ladung dQ pro Luftmasse dm), <strong>D</strong> = Energiedosis (absorbierte Energie dE pro Gewebemasse dm), <strong>H</strong> = Äquivalentdosis, <strong>q</strong> = Qualitäts-/Strahlungswichtungsfaktor (q=1 für γ, Röntgen, β; q=20 für α) <span class="cite">[cite: 52, 124, 125]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[A] = Bq = s⁻¹, [J] = C/kg, [D] = Gray [Gy = J/kg], [H] = Sievert [Sv = J/kg] <span class="cite">[cite: 52, 124]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Lambert-Beer-Gesetz &amp; Linearisierung (Semi-Log-Plot)</strong> <span class="cite">[cite: 49, 54, 66]</span></td>
+          <td><span class="math">I(x) = I<sub>0</sub> · e<sup>−μ · x</sup> &nbsp;⇔&nbsp; ln(I) = ln(I<sub>0</sub>) − μ · x</span><br>Mit Zählraten: <span class="math">ln(N) = ln(N<sub>0</sub>) − μ · x</span></td>
+          <td class="var-list"><strong>I(x)</strong> = Strahlungsintensität hinter Schichtdicke x, <strong>I<sub>0</sub></strong> = Anfangsintensität, <strong>μ</strong> = linearer Schwächungskoeffizient (= negative Steigung im Semi-Log-Plot!), <strong>x</strong> = Eindringtiefe / Absorberdicke, <strong>N, N<sub>0</sub></strong> = gemessene Zählraten <span class="cite">[cite: 49, 54, 66]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[μ] = cm⁻¹ oder mm⁻¹ <span class="cite">[cite: 50, 57]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Halbwertsdicke, Massenabsorptionskoeffizient &amp; Abschirmkaskade</strong> <span class="cite">[cite: 51, 52, 53]</span></td>
+          <td><span class="math">X<sub>1/2</sub> = <span class="frac"><span>ln(2)</span><span>μ</span></span> ≈ <span class="frac"><span>0,693</span><span>μ</span></span> &nbsp;|&nbsp; μ = (<span class="frac"><span>μ</span><span>ρ</span></span>) · ρ</span><br>Nach n Schichten (je 1/k): <span class="math">I<sub>n</sub> = I<sub>0</sub> · (<span class="frac"><span>1</span><span>k</span></span>)<sup>n</sup></span></td>
+          <td class="var-list"><strong>X<sub>1/2</sub></strong> = Halbwertsdicke (Schichtdicke für 50 % Intensität), <strong>μ/ρ</strong> = Massenabsorptionskoeffizient (für ⁶⁰Co bei 1 MeV: ≈ 0,07 cm²/g), <strong>ρ</strong> = Dichte (ρ<sub>Blei</sub> ≈ 11,34 g/cm³ ⇒ μ<sub>Blei</sub> ≈ 0,79 cm⁻¹), <strong>n</strong> = Anzahl identischer Abschirmplatten <span class="cite">[cite: 51, 52, 53]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[X<sub>1/2</sub>] = cm oder mm, [μ/ρ] = cm²/g <span class="cite">[cite: 51, 53]</span></td>
+        </tr>
+        <tr class="row-lab">
+          <td><strong>Versuchsauswertung Radioaktivität &amp; Fehlerfortpflanzung</strong> <span class="cite">[cite: 65, 66, 67, 68, 71, 72, 74]</span></td>
+          <td>Mittelwert &amp; Korrektur: <span class="math">N = <span class="frac"><span>1</span><span>3</span></span>(N<sub>1</sub>+N<sub>2</sub>+N<sub>3</sub>) &nbsp;|&nbsp; N<sub>korr</sub> = N − N<sub>B</sub></span><br>Poisson- &amp; Log-Fehler: <span class="math">ΔN = √N &nbsp;|&nbsp; Δ(ln N) = <span class="frac"><span>ΔN</span><span>N</span></span> = <span class="frac"><span>1</span><span>√N</span></span></span><br>Steigung &amp; X<sub>1/2</sub>-Fehler: <span class="math">μ = |<span class="frac"><span>Δy</span><span>Δx</span></span>| &nbsp;|&nbsp; Δμ = |μ − μ<sub>Fehler</sub>| &nbsp;|&nbsp; ΔX<sub>1/2</sub> = <span class="frac"><span>Δμ</span><span>μ</span></span> · X<sub>1/2</sub></span></td>
+          <td class="var-list"><strong>N<sub>1..3</sub></strong> = Einzelmessungen, <strong>N<sub>B</sub></strong> = gemittelter Hintergrund ohne Quelle, <strong>ΔN</strong> = statistischer Poisson-Fehler, <strong>Δ(ln N)</strong> = Gauß-Fehler des logarithmierten Werts, <strong>μ<sub>Fehler</sub></strong> = Steigung der Fehlergeraden, <strong>ΔX<sub>1/2</sub></strong> = absoluter Fehler der Halbwertsdicke <span class="cite">[cite: 65, 66, 67, 68, 71, 72, 74]</span></td>
+          <td><span class="badge lab">🔬 Praktikum</span><br>[Δμ] = mm⁻¹, [ΔX<sub>1/2</sub>] = mm <span class="cite">[cite: 72, 74]</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3.2 Magnetresonanztomographie (MRT – Seminar &amp; Praxiseinheit)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>Magnetisches Dipolmoment &amp; Zeeman-Energie</strong> <span class="cite">[cite: 229, 234]</span></td>
+          <td><span class="math"><span class="vec">μ</span> = γ · <span class="vec">I</span> &nbsp;|&nbsp; E = −<span class="vec">μ</span> · <span class="vec">B</span><sub>0</sub> &nbsp;|&nbsp; ΔE = Δm · ℏ · γ · B<sub>0</sub> = h · f<sub>0</sub></span></td>
+          <td class="var-list"><strong>μ</strong> = magnetisches Dipolmoment des Kerns, <strong>γ</strong> = gyromagnetisches Verhältnis (für ¹H: γ = 26,75·10⁷ rad/(s·T)), <strong>I</strong> = Kernspin (für ¹H: I = 1/2), <strong>B<sub>0</sub></strong> = statisches Hauptmagnetfeld, <strong>ΔE</strong> = Energiedifferenz zwischen Parallel- und Antiparallel-Zustand, <strong>ℏ</strong> = h/(2π) <span class="cite">[cite: 226, 229, 234, 248, 285]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[B₀] = Tesla [T], [E] = J bzw. eV <span class="cite">[cite: 222, 234, 246]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Larmorfrequenz (Präzessionsfrequenz)</strong> <span class="cite">[cite: 234, 285]</span></td>
+          <td><span class="math">ω<sub>0</sub> = γ · B<sub>0</sub> &nbsp;⇔&nbsp; ν<sub>L</sub> = f<sub>0</sub> = <span class="frac"><span>γ</span><span>2π</span></span> · B<sub>0</sub></span></td>
+          <td class="var-list"><strong>ω<sub>0</sub></strong> = Kreisfrequenz der Präzession [rad/s], <strong>ν<sub>L</sub> (f<sub>0</sub>)</strong> = Larmorfrequenz [Hz] (für ¹H gilt γ/(2π) ≈ 42,58 MHz/T → bei 1,5 T ≈ 64 MHz, bei 3,0 T ≈ 128 MHz, beim Tisch-MRT mit 23,6 MHz ist B₀ ≈ 0,55 T) <span class="cite">[cite: 234, 247, 285, 286]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>[ν<sub>L</sub>] = MHz = 10⁶ s⁻¹ <span class="cite">[cite: 247, 285]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Resonante HF-Anregung &amp; Flipwinkel θ</strong> <span class="cite">[cite: 249, 253, 287]</span></td>
+          <td><span class="math">ω<sub>1</sub> = γ · B<sub>1</sub> &nbsp;|&nbsp; θ = γ · B<sub>1</sub> · t<sub>RF</sub></span></td>
+          <td class="var-list"><strong>θ</strong> = Flipwinkel (Auslenkwinkel von <span class="vec">M</span> aus der z-Achse, z. B. 90° = π/2 oder 180° = π), <strong>B<sub>1</sub></strong> = Magnetfeldstärke des eingestrahlten Hochfrequenz-(RF)-Pulses, <strong>t<sub>RF</sub></strong> = Pulsdauer (Duration in μs), <strong>ω<sub>1</sub></strong> = Rotationsfrequenz um B<sub>1</sub> im rotierenden Koordinatensystem <span class="cite">[cite: 249, 253, 255, 287]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>[θ] = rad bzw. Grad (°) <span class="cite">[cite: 249, 287]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Faradaysches Induktionsgesetz (FID-Signalerzeugung)</strong> <span class="cite">[cite: 260]</span></td>
+          <td><span class="math">U<sub>ind</sub> = − <span class="frac"><span>dΦ</span><span>dt</span></span> = − <span class="frac"><span>d</span><span>dt</span></span> ∫<sub>A</sub> B dA</span></td>
+          <td class="var-list"><strong>U<sub>ind</sub></strong> = in der Empfangsspule (Receiver) induzierte Signalspannung (FID), <strong>Φ</strong> = magnetischer Fluss durch die Spulenfläche A, <strong>B</strong> = magnetische Flussdichte der rotierenden Quermagnetisierung M<sub>xy</sub> <span class="cite">[cite: 259, 260, 263]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Volt [V] <span class="cite">[cite: 260]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>T<sub>1</sub>-Relaxation (Longitudinale / Spin-Gitter-Relaxation)</strong> <span class="cite">[cite: 269, 275]</span></td>
+          <td>Nach 90°-Puls: <span class="math">M<sub>z</sub>(t) = M<sub>0</sub> · (1 − e<sup>−t / T₁</sup>)</span><br>Bei t = T<sub>1</sub>: <span class="math">M<sub>z</sub>(T<sub>1</sub>) = M<sub>0</sub> · (1 − e<sup>−1</sup>) ≈ 0,63 · M<sub>0</sub></span></td>
+          <td class="var-list"><strong>M<sub>z</sub>(t)</strong> = Längsmagnetisierung zum Zeitpunkt t nach einem 90°-Puls, <strong>M<sub>0</sub></strong> = maximale Gleichgewichtsmagnetisierung entlang B<sub>0</sub>, <strong>T<sub>1</sub></strong> = longitudinale Relaxationszeit (Zeit bis 63 % von M₀ wieder erreicht sind) <span class="cite">[cite: 252, 269, 275]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>[T₁] = ms oder s <span class="cite">[cite: 220, 275, 292]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>T<sub>2</sub>- &amp; T<sub>2</sub>*-Relaxation (Transversale / Spin-Spin-Relaxation)</strong> <span class="cite">[cite: 269, 278, 281, 282]</span></td>
+          <td>Rotierendes System: <span class="math">M<sub>xy</sub>(t) = M<sub>0</sub> · e<sup>−t / T₂</sup></span><br>Bei t = T<sub>2</sub>: <span class="math">M<sub>xy</sub>(T<sub>2</sub>) = M<sub>0</sub> · e<sup>−1</sup> ≈ 0,37 · M<sub>0</sub></span><br>Effektives T<sub>2</sub>*: <span class="math"><span class="frac"><span>1</span><span>T<sub>2</sub>*</span></span> = <span class="frac"><span>1</span><span>T<sub>2</sub></span></span> + <span class="frac"><span>1</span><span>T<sub>2</sub>'</span></span></span></td>
+          <td class="var-list"><strong>M<sub>xy</sub>(t)</strong> = Quermagnetisierung in der xy-Ebene, <strong>T<sub>2</sub></strong> = wahre/natürliche Spin-Spin-Relaxationszeit (irreversibel, nach T₂ noch 37 % übrig, nach 5·T₂ ≈ 0), <strong>T<sub>2</sub>'</strong> = Zusatzrelaxation durch statische Magnetfeldinhomogenitäten (reversibel durch 180°-Spin-Echo!), <strong>T<sub>2</sub>*</strong> = effektive Relaxationszeit des FIDs <span class="cite">[cite: 263, 278, 280, 281, 292]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>[T₂, T₂*] = ms <span class="cite">[cite: 220, 278, 281]</span></td>
+        </tr>
+        <tr class="row-low">
+          <td>(Vektorielle Bloch-Differentialgleichung &amp; Laborsystem-Lösung) <span class="cite">[cite: 266, 268, 269, 282]</span></td>
+          <td><span class="math">( <span class="frac"><span>d<span class="vec">M</span>(t)</span><span>dt</span></span> = γ <span class="vec">M</span>(t) × <span class="vec">B</span>(t) − (M<sub>x</sub>/T<sub>2</sub>, M<sub>y</sub>/T<sub>2</sub>, (M<sub>0</sub>−M<sub>z</sub>)/T<sub>1</sub>)<sup>T</sup> )</span><br><span class="math">( M<sub>x</sub>(t) = M<sub>0</sub>e<sup>−t/T₂</sup>sin(ωt) &nbsp;|&nbsp; Δφ = γ · B<sub>loc</sub> · Δt )</span></td>
+          <td class="var-list">(<strong>M(t)</strong> = Magnetisierungsvektor (M<sub>x</sub>, M<sub>y</sub>, M<sub>z</sub>), <strong>B(t)</strong> = Magnetfeldvektor, <strong>Δφ</strong> = akkumulierte Phasendifferenz durch lokale Feldabweichung B<sub>loc</sub>) <span class="cite">[cite: 266, 268, 269, 282]</span></td>
+          <td><span class="badge low">(⚙️ Herleitung / Exkurs)</span><br>Gelöste Formeln oben reichen! <span class="cite">[cite: 269]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ==================== OBERTHEMA 4: GEOMETRISCHE OPTIK & AUGENMODELL ==================== -->
+  <section class="topic-block" id="t4">
+    <h1>Oberthema 4: Geometrische Optik, Wellenlehre &amp; Augenmodell</h1>
+
+    <h2>4.1 Wellenoptik, Lichtbrechung &amp; Totalreflexion</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>Wellengrundgleichung, Photonenenergie &amp; Medium</strong> <span class="cite">[cite: 174, 176, 177]</span></td>
+          <td><span class="math">v = f · λ &nbsp;|&nbsp; E = h · f &nbsp;|&nbsp; n = <span class="frac"><span>c</span><span>v</span></span> &nbsp;|&nbsp; λ = <span class="frac"><span>λ<sub>0</sub></span><span>n</span></span></span></td>
+          <td class="var-list"><strong>v</strong> = Ausbreitungsgeschwindigkeit im Medium, <strong>c</strong> = Vakuumlichtgeschwindigkeit (3,0·10⁸ m/s), <strong>f</strong> = Frequenz (bleibt beim Medienübergang konstant → bestimmt die Farbe!), <strong>λ, λ<sub>0</sub></strong> = Wellenlänge im Medium bzw. Vakuum, <strong>n</strong> = Brechungsindex, <strong>E</strong> = Photonenenergie, <strong>h</strong> = Plancksches Wirkungsquantum (6,626·10⁻³⁴ Js) <span class="cite">[cite: 174, 175, 176, 177]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>[f] = Hz, [λ] = m (nm), [n] = 1 <span class="cite">[cite: 176, 177]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Snelliussches Brechungsgesetz</strong> <span class="cite">[cite: 126, 178, 179]</span></td>
+          <td><span class="math">n<sub>1</sub> · sin(α) = n<sub>2</sub> · sin(β) &nbsp;⇔&nbsp; <span class="frac"><span>sin(α)</span><span>sin(β)</span></span> = <span class="frac"><span>n<sub>2</sub></span><span>n<sub>1</sub></span></span> = <span class="frac"><span>v<sub>1</sub></span><span>v<sub>2</sub></span></span></span></td>
+          <td class="var-list"><strong>α (α<sub>1</sub>)</strong> = Einfallswinkel zum Lot, <strong>β (α<sub>2</sub>)</strong> = Brechungswinkel zum Lot, <strong>n<sub>1</sub>, n<sub>2</sub></strong> = Brechungsindizes der Medien 1 und 2, <strong>v<sub>1</sub>, v<sub>2</sub></strong> = Wellengeschwindigkeiten (gilt in der Form sin α / sin β = v₁/v₂ auch für Schall!) <span class="cite">[cite: 126, 178, 179]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Winkel in Grad (°) <span class="cite">[cite: 178, 179]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Grenzwinkel der Totalreflexion (Endoskop)</strong> <span class="cite">[cite: 180, 181]</span></td>
+          <td><span class="math">sin(α<sub>T</sub>) = <span class="frac"><span>n<sub>2</sub></span><span>n<sub>1</sub></span></span> = <span class="frac"><span>n<sub>Mantel</sub></span><span>n<sub>Kern</sub></span></span></span> &nbsp;(für n<sub>1</sub> &gt; n<sub>2</sub> und β = 90°)</td>
+          <td class="var-list"><strong>α<sub>T</sub></strong> = Grenzwinkel der Totalreflexion (ab α &gt; α<sub>T</sub> wird 100 % reflektiert), <strong>n<sub>1</sub> (n<sub>Kern</sub>)</strong> = optisch dichteres Medium, <strong>n<sub>2</sub> (n<sub>Mantel</sub>)</strong> = optisch dünneres Medium <span class="cite">[cite: 180, 181]</span></td>
+          <td><span class="badge exam">🔥 Klausur</span><br>Wasser→Luft: 48,8°, Glas→Luft: 41,8° <span class="cite">[cite: 180]</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>4.2 Sphärische Flächen, Linsen, Augenmodell, Bessel-Verfahren &amp; Gauß-Fehlerrechnung</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:18%;">Gesetz / Begriff</th>
+          <th style="width:30%;">Formel</th>
+          <th style="width:36%;">Bedeutung aller Formelzeichen</th>
+          <th style="width:16%;">Einheit &amp; Relevanz</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="row-exam">
+          <td><strong>Brechung an einer einzelnen Kugelfläche (Hornhaut-Modell)</strong> <span class="cite">[cite: 127, 128, 186, 212]</span></td>
+          <td><span class="math"><span class="frac"><span>1</span><span>f</span></span> = <span class="frac"><span>n<sub>2</sub> − n<sub>1</sub></span><span>n<sub>2</sub></span></span> · <span class="frac"><span>1</span><span>r</span></span> &nbsp;|&nbsp; D = <span class="frac"><span>n<sub>2</sub></span><span>f</span></span> = <span class="frac"><span>n<sub>2</sub> − n<sub>1</sub></span><span>r</span></span></span><br>Für Luft (n<sub>1</sub>=1) → Glas (n<sub>2</sub>=n): <span class="math">r = <span class="frac"><span>n − 1</span><span>D</span></span></span></td>
+          <td class="var-list"><strong>f</strong> = Brennweite, <strong>D</strong> = Brechkraft, <strong>n<sub>1</sub></strong> = Brechungsindex vor der Fläche (Luft = 1), <strong>n<sub>2</sub> (n)</strong> = Brechungsindex des Linsen-/Hornhautmediums (im Praktikum Glas n = 1,53 → r = 0,53/D), <strong>r</strong> = Krümmungsradius der Kugelfläche <span class="cite">[cite: 127, 128, 186, 212, 216]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>1 dpt = 1 m⁻¹, [r, f] = m <span class="cite">[cite: 128, 216]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Dünne Linse (Linsenschleiferformel)</strong> <span class="cite">[cite: 129, 185, 187, 216]</span></td>
+          <td>In Luft: <span class="math">D = <span class="frac"><span>1</span><span>f</span></span> = (n − 1) · (<span class="frac"><span>1</span><span>r<sub>1</sub></span></span> + <span class="frac"><span>1</span><span>r<sub>2</sub></span></span>)</span><br>Allgemein: <span class="math"><span class="frac"><span>1</span><span>f</span></span> = (<span class="frac"><span>n<sub>Linse</sub></span><span>n<sub>Umgebung</sub></span></span> − 1) · (<span class="frac"><span>1</span><span>r<sub>1</sub></span></span> + <span class="frac"><span>1</span><span>r<sub>2</sub></span></span>)</span></td>
+          <td class="var-list"><strong>D</strong> = Brechkraft, <strong>f</strong> = Brennweite (f &gt; 0 Sammellinse, f &lt; 0 Zerstreuungslinse), <strong>n (n<sub>Linse</sub>)</strong> = Brechungsindex der Linse, <strong>n<sub>Umgebung</sub></strong> = Brechungsindex des umgebenden Mediums, <strong>r<sub>1</sub>, r<sub>2</sub></strong> = Krümmungsradien (r &gt; 0 konvex, r &lt; 0 konkav; für Planfläche ist r<sub>2</sub> = ∞ ⇒ <strong>1/r<sub>2</sub> = 0</strong>!) <span class="cite">[cite: 129, 130, 185, 187, 216]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>[D] = dpt = m⁻¹ <span class="cite">[cite: 129, 184]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Abbildungsgleichung &amp; Abbildungsmaßstab</strong> <span class="cite">[cite: 129, 193]</span></td>
+          <td><span class="math">D = <span class="frac"><span>1</span><span>f</span></span> = <span class="frac"><span>1</span><span>g</span></span> + <span class="frac"><span>1</span><span>b</span></span> &nbsp;|&nbsp; β = <span class="frac"><span>b</span><span>g</span></span> = <span class="frac"><span>B</span><span>G</span></span></span></td>
+          <td class="var-list"><strong>g</strong> = Gegenstandsweite (Abstand Objekt–Hauptebene), <strong>b</strong> = Bildweite (b &gt; 0 reelles Bild rechts; b &lt; 0 virtuelles Bild links), <strong>G</strong> = Gegenstandsgröße, <strong>B</strong> = Bildgröße, <strong>β</strong> = Abbildungsmaßstab (|β| &gt; 1 vergrößert, |β| &lt; 1 verkleinert) <span class="cite">[cite: 129, 130, 193]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>[g, b, f] = m, [β] = 1 <span class="cite">[cite: 129, 193, 213]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Zusammengesetzte dünne Linsensysteme (Augenmodell &amp; Brille)</strong> <span class="cite">[cite: 130, 132, 194, 212]</span></td>
+          <td><span class="math">D<sub>System</sub> = D<sub>1</sub> + D<sub>2</sub> + ... = D<sub>Hornhaut</sub> + D<sub>Augenlinse</sub> (+ D<sub>Brille</sub>)</span></td>
+          <td class="var-list"><strong>D<sub>System</sub></strong> = Gesamtbrechkraft des dünnen Systems (menschliches Auge fernakkommodiert ≈ 58 dpt, davon Cornea ≈ 42–43 dpt und Linse ≈ 16–19,5 dpt), <strong>D<sub>Augenlinse</sub></strong> = D<sub>System</sub> − D<sub>Hornhaut</sub>, <strong>D<sub>Brille</sub></strong> = D<sub>Gesamt mit Brille</sub> − D<sub>System</sub> <span class="cite">[cite: 132, 134, 198, 199, 212, 214]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>Dioptrie [dpt = m⁻¹] <span class="cite">[cite: 194, 212]</span></td>
+        </tr>
+        <tr class="row-exam">
+          <td><strong>Bessel-Verfahren zur Brennweitenbestimmung</strong> <span class="cite">[cite: 131, 211]</span></td>
+          <td><span class="math">f = <span class="frac"><span>L<sup>2</sup> − d<sup>2</sup></span><span>4 · L</span></span></span> &nbsp;(mit <span class="math">g<sub>1</sub> = <span class="frac"><span>L − d</span><span>2</span></span></span>, <span class="math">b<sub>1</sub> = <span class="frac"><span>L + d</span><span>2</span></span></span>)</td>
+          <td class="var-list"><strong>f</strong> = gesuchte Brennweite der Sammellinse, <strong>L</strong> = fester Gesamtabstand zwischen Gegenstand und Schirm (Bedingung: <strong>L &gt; 4f</strong>, im Praktikum 5f–6f), <strong>d</strong> = Abstand zwischen den beiden Linsenstellungen, die ein scharfes Bild liefern <span class="cite">[cite: 131, 133, 211]</span></td>
+          <td><span class="badge exam">🔥 Klausur &amp; Praktikum</span><br>[f, L, d] = mm bzw. m <span class="cite">[cite: 131, 134, 211]</span></td>
+        </tr>
+        <tr class="row-lab">
+          <td><strong>Alle 5 Gaußschen Fehlerformeln für das Optik-Praktikum (Folie 14)</strong> <span class="cite">[cite: 215]</span></td>
+          <td>1. Mittelwert: <span class="math">D̄ = <span class="frac"><span>1</span><span>N</span></span> ∑ D<sub>i</sub> &nbsp;|&nbsp; ΔD̄ = <span class="frac"><span>s</span><span>√N</span></span></span><br>2. Brechkraft: <span class="math">ΔD = √[ (<span class="frac"><span>Δg</span><span>g<sup>2</sup></span></span>)<sup>2</sup> + (<span class="frac"><span>Δb</span><span>b<sup>2</sup></span></span>)<sup>2</sup> ]</span><br>3. Bessel: <span class="math">Δf = √[ (<span class="frac"><span>L<sup>2</sup> + d<sup>2</sup></span><span>4L<sup>2</sup></span></span> · ΔL)<sup>2</sup> + (<span class="frac"><span>d</span><span>2L</span></span> · Δd)<sup>2</sup> ]</span><br>4. Hornhautradius: <span class="math">Δr = (n − 1) · <span class="frac"><span>ΔD</span><span>D<sup>2</sup></span></span> = 0,53 · <span class="frac"><span>ΔD</span><span>D<sup>2</sup></span></span></span><br>5. Differenz: <span class="math">ΔD<sub>Linse</sub> = √[ (ΔD<sub>System</sub>)<sup>2</sup> + (ΔD<sub>Hornhaut</sub>)<sup>2</sup> ]</span></td>
+          <td class="var-list"><strong>N</strong> = Anzahl der Messungen (im Versuch N = 4 bzw. 3), <strong>s</strong> = Standardabweichung der Einzelmessungen, <strong>Δg, Δb, ΔL, Δd</strong> = Ablese-/Einstellunsicherheiten auf der optischen Bank, <strong>ΔD, Δf, Δr</strong> = resultierende Gauß-Fehler für das Protokoll <span class="cite">[cite: 133, 215]</span></td>
+          <td><span class="badge lab">🔬 Praktikum</span><br>Ergebnisse in mm auf 2 Nachkommastellen! <span class="cite">[cite: 134, 214, 215]</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <script>
+    function filterTopic(topicId, btn) {
+      document.querySelectorAll('.toolbar .btn:not(.filter-exam)').forEach(b => {
+        if (b.textContent.includes('Themen') || b.textContent.match(/^[1-4]\./)) b.classList.remove('active');
+      });
+      if (btn) btn.classList.add('active');
+      document.querySelectorAll('.topic-block').forEach(sec => {
+        sec.style.display = (topicId === 'all' || sec.id === topicId) ? 'block' : 'none';
+      });
+    }
+
+    function toggleLowYield() {
+      const body = document.body;
+      const btn = document.getElementById('btnHideLow');
+      body.classList.toggle('hide-low');
+      btn.classList.toggle('active', body.classList.contains('hide-low'));
+      btn.textContent = body.classList.contains('hide-low') ? '🎯 Exkurse in (...) ausgeblendet' : '🎯 Exkurse in (...) ausblenden';
+    }
+
+    function filterRows() {
+      const q = document.getElementById('searchBox').value.toLowerCase().trim();
+      document.querySelectorAll('.topic-block tbody tr').forEach(row => {
+        const match = row.innerText.toLowerCase().includes(q);
+        row.style.display = match ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
